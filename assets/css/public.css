@@ -15,8 +15,13 @@
     /*========== Form ==========*/
     --spd-container-max-width: 400px;
     --spd-container-padding: 20px;
-    --spd-input-padding: 12px;
-    --spd-heading-size: 18px;
+    --spd-control-height: 52px;
+    --spd-input-padding: 14px 16px;
+    --spd-input-font-size: 16px;
+    --spd-label-size: 15px;
+    --spd-heading-size: 22px;
+    --spd-body-font-size: 15px;
+    --spd-button-font-size: 16px;
 
     /*========== Status ==========*/
     --spd-success-color: #228a3d;
@@ -56,9 +61,17 @@
 }
 
 .otp-form h3 {
-    margin-bottom: 10px;
+    margin-bottom: 14px;
     font-size: var(--spd-heading-size);
     font-weight: bold;
+    line-height: 1.4;
+}
+
+.otp-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: var(--spd-label-size);
+    font-weight: 500;
 }
 
 .spd-otp-container .otp-form input[type="text"],
@@ -66,21 +79,49 @@
 .spd-otp-container .otp-form input[type="tel"],
 .otp-form input {
     width: 100%;
+    height: var(--spd-control-height);
     padding: var(--spd-input-padding);
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     border: 1px solid var(--spd-border-color);
     border-radius: var(--spd-radius) !important;
+    font-size: var(--spd-input-font-size);
+    line-height: 1.4;
+    box-sizing: border-box;
 }
 
-input#phone,
-input#otp_code {
+input#phone {
     direction: ltr;
     text-align: left;
 }
 
+.spd-otp-digits {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    direction: ltr;
+    margin-bottom: 12px;
+    box-sizing: border-box;
+}
+
+.spd-otp-container .otp-form .spd-otp-digits .otp-digit,
+.spd-otp-digits .otp-digit {
+    flex: 1 1 0;
+    width: auto;
+    min-width: 0;
+    height: var(--spd-control-height);
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 0;
+    direction: ltr;
+    box-sizing: border-box;
+}
+
 .spd-otp-hint {
-    margin: -4px 0 14px;
-    font-size: 14px;
+    margin: -2px 0 16px;
+    font-size: 13px;
     line-height: 1.7;
 }
 
@@ -106,9 +147,10 @@ input#otp_code {
     display: none;
     padding: 16px 0;
     text-align: center;
+    font-size: var(--spd-body-font-size);
 }
 #resend-otp .timer{
-    font-size: 16px;
+    font-size: 17px;
     color: var(--first-color);
 }
 
@@ -116,6 +158,7 @@ input#otp_code {
     display: none;
     cursor:pointer;
     color: var(--first-color);
+    font-size: var(--spd-body-font-size);
 }
 
 .form-message{
@@ -143,13 +186,18 @@ input#otp_code {
     position: relative;
     display: flex;
     width:100%;
+    min-height: var(--spd-control-height);
     align-items: center;
     justify-content: center;
-    padding: 12px 10px;
+    padding: 14px 16px;
+    font-size: var(--spd-button-font-size);
+    font-weight: 600;
+    line-height: 1.4;
     overflow: hidden;
     border:none;
     outline: none;
     transition: background-color 0.2s ease;
+    box-sizing: border-box;
 }
 .spd-button:hover:not(.loading){
     background-color: var(--first-color-alt) !important;

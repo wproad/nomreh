@@ -23,6 +23,7 @@ function spd_toast (message, type = "error") {
 
 jQuery(document).ready(function($) {
     var resendCountdown = null;
+    var $otpDigits = $('.spd-otp-digits .otp-digit');
 
     function clearResendTimer() {
         if (resendCountdown) {
@@ -34,6 +35,89 @@ jQuery(document).ready(function($) {
         $display.find('.timer').text('').hide();
         $display.find('.resend-btn').hide();
     }
+
+    function toEnglishDigits(value) {
+        return String(value || '')
+            .replace(/[۰-۹]/g, function(d) { return '۰۱۲۳۴۵۶۷۸۹'.indexOf(d); })
+            .replace(/[٠-٩]/g, function(d) { return '٠١٢٣٤٥٦٧٨٩'.indexOf(d); });
+    }
+
+    function getOtpCode() {
+        var code = '';
+        $otpDigits.each(function() {
+            code += toEnglishDigits($(this).val()).replace(/\D/g, '');
+        });
+        return code;
+    }
+
+    function syncOtpCode() {
+        $('#otp_code').val(getOtpCode());
+    }
+
+    function clearOtpDigits(focusFirst) {
+        $otpDigits.val('');
+        syncOtpCode();
+        if (focusFirst) {
+            $otpDigits.first().trigger('focus');
+        }
+    }
+
+    function fillOtpDigits(code) {
+        var digits = toEnglishDigits(code).replace(/\D/g, '').slice(0, $otpDigits.length).split('');
+        $otpDigits.each(function(index) {
+            $(this).val(digits[index] || '');
+        });
+        syncOtpCode();
+        if (digits.length >= $otpDigits.length) {
+            $otpDigits.last().trigger('focus');
+        } else if (digits.length > 0) {
+            $otpDigits.eq(digits.length).trigger('focus');
+        }
+    }
+
+    $otpDigits.on('input', function() {
+        var $input = $(this);
+        var value = toEnglishDigits($input.val()).replace(/\D/g, '');
+
+        if (value.length > 1) {
+            fillOtpDigits(value);
+            return;
+        }
+
+        $input.val(value);
+        syncOtpCode();
+
+        if (value && $input.index() < $otpDigits.length - 1) {
+            $otpDigits.eq($input.index() + 1).trigger('focus');
+        }
+    });
+
+    $otpDigits.on('keydown', function(e) {
+        var $input = $(this);
+        var index = $input.index();
+
+        if (e.key === 'Backspace' && !$input.val() && index > 0) {
+            $otpDigits.eq(index - 1).val('').trigger('focus');
+            syncOtpCode();
+            e.preventDefault();
+        } else if (e.key === 'ArrowLeft' && index > 0) {
+            $otpDigits.eq(index - 1).trigger('focus');
+            e.preventDefault();
+        } else if (e.key === 'ArrowRight' && index < $otpDigits.length - 1) {
+            $otpDigits.eq(index + 1).trigger('focus');
+            e.preventDefault();
+        }
+    });
+
+    $otpDigits.on('paste', function(e) {
+        e.preventDefault();
+        var pasted = (e.originalEvent.clipboardData || window.clipboardData).getData('text');
+        fillOtpDigits(pasted);
+    });
+
+    $otpDigits.on('focus', function() {
+        $(this).select();
+    });
 
     // Handle Send OTP form submission
     $('#send-otp-form').on('submit', function(e) {
@@ -64,7 +148,7 @@ jQuery(document).ready(function($) {
                     // Hide the Send OTP form and show the Verify OTP form
                     $('#send-otp-form').hide();
                     $('#verify-otp-form').show();
-                    $('#otp_code').val('').trigger('focus');
+                    clearOtpDigits(true);
                     startTimer(timerDuration); // Start the countdown timer
                 } else {
                     spd_toast(response.data.message)
@@ -107,7 +191,7 @@ jQuery(document).ready(function($) {
     $('#change-phone').on('click', function(e) {
         e.preventDefault();
         clearResendTimer();
-        $('#otp_code').val('');
+        clearOtpDigits(false);
         $('#verify-otp-form').hide();
         $('#send-otp-form').show();
         refreshCaptcha();
@@ -149,7 +233,7 @@ jQuery(document).ready(function($) {
         }, 1000);
     }
 
-    // Handle Verify OTP form submission (remains unchanged)
+    // Handle Verify OTP form submission
     $('#verify-otp-form').on('submit', function(e) {
         e.preventDefault();
         var Form = $(this),
@@ -157,8 +241,16 @@ jQuery(document).ready(function($) {
             messageEl = Form.find('.form-message')
 
         var phone = $('#phone').val();
-        var otp_code = $(this).find('#otp_code').val();
+        var otp_code = getOtpCode();
         var redirect_url = $(this).find('#redirect_url').val();
+
+        if (otp_code.length !== 4) {
+            spd_toast('لطفا کد ۴ رقمی را کامل وارد کنید');
+            $otpDigits.first().trigger('focus');
+            return;
+        }
+
+        $('#otp_code').val(otp_code);
 
         $.ajax({
             url: nomreh_pub_obj.ajaxurl, // WordPress AJAX URL
@@ -188,6 +280,7 @@ jQuery(document).ready(function($) {
                     }
                 } else {
                     spd_toast(response.data.message)
+                    clearOtpDigits(true);
                 }
             },
             error: function() {

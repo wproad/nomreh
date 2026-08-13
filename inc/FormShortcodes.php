@@ -42,8 +42,14 @@ class FormShortcodes {
             <!-- Verify OTP Form (Initially hidden) -->
             <form id="verify-otp-form" class="otp-form" style="display: none;">
                 <h3>اعتبارسنجی</h3>
-                <label for="otp_code">کد تایید</label>
-                <input type="text" id="otp_code" name="otp_code" inputmode="numeric" autocomplete="one-time-code" maxlength="4" required>
+                <label for="otp_digit_1">کد تایید</label>
+                <div class="spd-otp-digits" dir="ltr">
+                    <input type="text" id="otp_digit_1" class="otp-digit" inputmode="numeric" autocomplete="one-time-code" maxlength="1" pattern="[0-9]*" required aria-label="رقم ۱">
+                    <input type="text" id="otp_digit_2" class="otp-digit" inputmode="numeric" autocomplete="one-time-code" maxlength="1" pattern="[0-9]*" required aria-label="رقم ۲">
+                    <input type="text" id="otp_digit_3" class="otp-digit" inputmode="numeric" autocomplete="one-time-code" maxlength="1" pattern="[0-9]*" required aria-label="رقم ۳">
+                    <input type="text" id="otp_digit_4" class="otp-digit" inputmode="numeric" autocomplete="one-time-code" maxlength="1" pattern="[0-9]*" required aria-label="رقم ۴">
+                </div>
+                <input type="hidden" id="otp_code" name="otp_code" value="">
                 <p class="spd-otp-hint">
                     کد تایید به شماره <span id="phone-clone"></span> فرستاده شد.
                     <a href="#" id="change-phone" class="spd-change-phone">تصحیح شماره</a>؟
