@@ -1,4 +1,8 @@
 jQuery(document).ready(function($) {
+    if ($.fn.wpColorPicker) {
+        $('.nomreh-color-picker').wpColorPicker();
+    }
+
     // Handle SMS provider selection
     $('#nomreh_sms_provider').on('change', function() {
         var selectedProvider = $(this).val();

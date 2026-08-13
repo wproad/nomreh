@@ -96,6 +96,10 @@ input#otp_code:focus{
     overflow: hidden;
     border:none;
     outline: none;
+    transition: background-color 0.2s ease;
+}
+.spd-button:hover:not(.loading){
+    background-color: var(--first-color-alt) !important;
 }
 .spd-button.loading{
     cursor: wait;
