@@ -1,20 +1,18 @@
 function spd_toast (message, type = "error") {
     if(message != null){
+        var toastClass = "spd-toast-info";
+        if (type === "error") {
+            toastClass = "spd-toast-error";
+        } else if (type === "success") {
+            toastClass = "spd-toast-success";
+        }
+
         Toastify({
             text: message,
             duration: 5000,
             newWindow: true,
             close: true,
-            style: {
-                background:
-                    type === "error"
-                        ? "rgba(220, 68, 68, 0.86)"
-                        : type === "success"
-                          ? "rgba(34, 160, 94, 0.86)"
-                          : "rgba(55, 65, 81, 0.86)",
-                border: "1px solid rgba(255, 255, 255, 0.22)",
-                boxShadow: "0 10px 30px rgba(15, 23, 42, 0.16)",
-            },
+            className: toastClass,
             gravity: "bottom", // `top` or `bottom`
             position: "left", // `left`, `center` or `right`
             stopOnFocus: true, // Prevents dismissing of toast on hover
@@ -22,7 +20,7 @@ function spd_toast (message, type = "error") {
     }
 }
 
-jQuery(document).ready(function($) {
+jQuery(document).ready(function($) {  
     // Handle Send OTP form submission
     $('#send-otp-form').on('submit', function(e) {
         e.preventDefault();

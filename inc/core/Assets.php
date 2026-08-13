@@ -41,6 +41,11 @@ class Assets {
             wp_add_inline_style($this->plugin_name, $brand_css);
         }
 
+        $custom_styles = get_option('nomreh_custom_styles', '');
+        if (is_string($custom_styles) && $custom_styles !== '') {
+            wp_add_inline_style($this->plugin_name, $custom_styles);
+        }
+
         wp_enqueue_script($this->plugin_name . '-toastify', $this->plugin_url . '/assets/js/toastify.js' , array('jquery'), $toastify_js_ver, false);
         wp_enqueue_script($this->plugin_name, $this->plugin_url . '/assets/js/public.js' , array('jquery'), $js_ver, false);
 

@@ -86,9 +86,26 @@ $sms_providers = \Nomreh\Sms::get_providers();
         <tr>
             <th><label for="nomreh_custom_styles">استایل سفارشی</label></th>
             <td>
-                <textarea name="nomreh_custom_styles" id="nomreh_custom_styles" rows="10" cols="50" class="large-text ltr"><?php echo esc_textarea($nomreh_custom_styles); ?></textarea>
-                <br>
-                <label for="nomreh_custom_styles">استایل های سفارشی خود را وارد کنید.</label>
+                <textarea name="nomreh_custom_styles" id="nomreh_custom_styles" rows="10" cols="50" class="large-text ltr" placeholder=":root { --spd-radius: 12px; --spd-surface: #fafafa; }"><?php echo esc_textarea($nomreh_custom_styles); ?></textarea>
+                <p class="description">
+                    استایل‌های سفارشی (CSS) خود را وارد کنید. برای تغییر ظاهر، متغیرهای زیر را در <code>:root</code> بازنویسی کنید:
+                    <br>
+                    <code>--first-color</code>,
+                    <code>--first-color-alt</code>,
+                    <code>--spd-surface</code>,
+                    <code>--spd-border-color</code>,
+                    <code>--spd-radius</code>,
+                    <code>--spd-button-text</code>,
+                    <code>--spd-container-max-width</code>,
+                    <code>--spd-container-padding</code>,
+                    <code>--spd-input-padding</code>,
+                    <code>--spd-success-color</code>,
+                    <code>--spd-error-color</code>,
+                    <code>--spd-toast-bg</code>,
+                    <code>--spd-toast-success-bg</code>,
+                    <code>--spd-toast-error-bg</code>,
+                    <code>--spd-toast-radius</code>
+                </p>
             </td>
         </tr>
     </table>

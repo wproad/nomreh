@@ -8,22 +8,22 @@
 
 .toastify {
     padding: 14px 18px;
-    color: #ffffff;
+    color: var(--spd-toast-text, #ffffff);
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.16);
-    background: rgba(55, 65, 81, 0.82);
-    border: 1px solid rgba(255, 255, 255, 0.22);
+    box-shadow: var(--spd-toast-shadow, 0 10px 30px rgba(15, 23, 42, 0.16));
+    background: var(--spd-toast-bg, rgba(55, 65, 81, 0.82));
+    border: var(--spd-toast-border, 1px solid rgba(255, 255, 255, 0.22));
     position: fixed;
     opacity: 0;
     transition: all 0.35s cubic-bezier(0.215, 0.61, 0.355, 1);
-    border-radius: 8px;
+    border-radius: var(--spd-toast-radius, 8px);
     cursor: pointer;
     text-decoration: none;
     max-width: min(420px, calc(100% - 32px));
     z-index: 2147483647;
-    font-size: 14px;
+    font-size: var(--spd-toast-font-size, 14px);
     line-height: 1.5;
     letter-spacing: 0.01em;
     backdrop-filter: blur(14px);
@@ -32,6 +32,14 @@
 
 .toastify.on {
     opacity: 1;
+}
+
+.toastify.spd-toast-success {
+    background: var(--spd-toast-success-bg, rgba(34, 160, 94, 0.86));
+}
+
+.toastify.spd-toast-error {
+    background: var(--spd-toast-error-bg, rgba(220, 68, 68, 0.86));
 }
 
 .toastify .toast-close {
@@ -47,7 +55,7 @@
     border: 0;
     border-radius: 6px;
     background: transparent;
-    color: #ffffff;
+    color: var(--spd-toast-text, #ffffff);
     font-size: 24px;
     font-weight: 300;
     line-height: 1;
@@ -87,7 +95,7 @@
     width: 1.5em;
     height: 1.5em;
     margin: -7px 5px;
-    border-radius: 8px;
+    border-radius: var(--spd-toast-radius, 8px);
 }
 
 .toastify-center {

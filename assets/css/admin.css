@@ -1,17 +1,19 @@
 :root {
-    /*========== Colors ==========*/
+    /*========== Brand ==========*/
     --first-color: hsl(342, 67%, 53%);
     --first-color-alt: hsl(342, 67%, 45%);
     --text-color: hsl(231, 12%, 98%);
     --body-color: hsl(231, 100%, 94%);
-    --shadow-color:hsl(342, 67%, 40%);
+    --shadow-color: hsl(342, 67%, 40%);
+    --spd-button-text: #fff;
+    --spd-radius: 4px;
 }
 
 
 .spd-button{
     background-color: var(--first-color) !important;
-    color: #fff;
-    border-radius: 4px;
+    color: var(--spd-button-text);
+    border-radius: var(--spd-radius);
     position: relative;
     display: flex;
     width:auto;
@@ -46,7 +48,7 @@
 
 .spinner-loading {
     border: 4px solid rgba(0, 0, 0, 0.1);
-    border-left-color: #ffffff;
+    border-left-color: var(--spd-button-text);
     border-radius: 50%;
     width: 13px;
     height: 13px;
