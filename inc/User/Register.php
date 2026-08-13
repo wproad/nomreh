@@ -2,6 +2,7 @@
 
 namespace Nomreh\User;
 
+use Nomreh\Core\Logger;
 use Nomreh\Utilities\Helpers;
 
 class Register {
@@ -65,6 +66,8 @@ class Register {
 
         wp_set_current_user($user->ID, $user->user_login);
         wp_set_auth_cookie($user->ID);
+
+        (new Logger())->log_register_success($user->ID, $phone);
 
         wp_send_json_success(['message' => 'ثبت نام شما با موفقیت انجام شد.']);
     }

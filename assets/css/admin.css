@@ -133,3 +133,43 @@
     border-left: 4px solid #6c757d;
     font-weight: bold;
 }
+
+.nomreh-login-log {
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    border-radius: 4px;
+    max-height: 560px;
+    overflow: auto;
+}
+
+.nomreh-login-log-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.nomreh-login-log-list li {
+    margin: 0;
+    padding: 8px 12px;
+    border-bottom: 1px solid #f0f0f1;
+    direction: ltr;
+    text-align: left;
+}
+
+.nomreh-login-log-list li:last-child {
+    border-bottom: 0;
+}
+
+.nomreh-login-log-list li.login {
+    border-right: 3px solid #2271b1;
+}
+
+.nomreh-login-log-list li.register {
+    border-right: 3px solid #00a32a;
+}
+
+.nomreh-login-log-list code {
+    font-size: 12px;
+    background: transparent;
+    padding: 0;
+}
