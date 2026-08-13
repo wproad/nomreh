@@ -7,6 +7,7 @@ function spd_toast (message, type = "error") {
             toastClass = "spd-toast-success";
         }
 
+        var isRtl = !!(typeof nomreh_pub_obj !== "undefined" && nomreh_pub_obj.is_rtl);
         Toastify({
             text: message,
             duration: 5000,
@@ -14,7 +15,7 @@ function spd_toast (message, type = "error") {
             close: true,
             className: toastClass,
             gravity: "bottom", // `top` or `bottom`
-            position: "left", // `left`, `center` or `right`
+            position: isRtl ? "right" : "left",
             stopOnFocus: true, // Prevents dismissing of toast on hover
         }).showToast();
     }

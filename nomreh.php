@@ -3,7 +3,7 @@
 Plugin Name: نُمره
 Plugin URI: https://github.com/ihamedm/nomreh
 Description: افزونه لاگین و ثبت نام با کد تایید پیامکی برای وردپرس. پشتیبانی از ملی پیامک و کاوه نگار. مناسب برای سایت‌های فارسی و ووکامرس.
-Version: 0.9.0
+Version: 0.10.0
 Requires at least: 5.0
 Tested up to: 6.4
 Requires PHP: 7.4

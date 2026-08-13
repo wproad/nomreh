@@ -36,9 +36,9 @@ class Assets {
         wp_enqueue_style($this->plugin_name . '-toastify', $this->plugin_url . '/assets/css/toastify.css' , array(), $toastify_css_ver, 'all');
         wp_enqueue_style($this->plugin_name, $this->plugin_url . '/assets/css/public.css' , array(), $css_ver, 'all');
 
-        $brand_css = $this->get_brand_inline_css();
-        if ($brand_css !== '') {
-            wp_add_inline_style($this->plugin_name, $brand_css);
+        $style_css = $this->get_style_inline_css();
+        if ($style_css !== '') {
+            wp_add_inline_style($this->plugin_name, $style_css);
         }
 
         $custom_styles = get_option('nomreh_custom_styles', '');
@@ -52,7 +52,8 @@ class Assets {
 
         wp_localize_script($this->plugin_name, 'nomreh_pub_obj', array(
             'ajax_nonce' => wp_create_nonce('nomreh_ajax_nonce'),
-            'ajaxurl' => admin_url('admin-ajax.php')
+            'ajaxurl' => admin_url('admin-ajax.php'),
+            'is_rtl' => is_rtl(),
         ));
 
     }
@@ -91,13 +92,20 @@ class Assets {
     }
 
     /**
-     * Build inline CSS that overrides frontend brand color variables.
+     * Build inline CSS that overrides frontend style tokens from Settings → Styles.
      */
-    private function get_brand_inline_css() {
-        $first = sanitize_hex_color(get_option('nomreh_first_color', ''));
-        $alt   = sanitize_hex_color(get_option('nomreh_first_color_alt', ''));
+    private function get_style_inline_css() {
+        $first       = sanitize_hex_color(get_option('nomreh_first_color', ''));
+        $alt         = sanitize_hex_color(get_option('nomreh_first_color_alt', ''));
+        $surface     = sanitize_hex_color(get_option('nomreh_surface_color', ''));
+        $border      = sanitize_hex_color(get_option('nomreh_border_color', ''));
+        $button_text = sanitize_hex_color(get_option('nomreh_button_text_color', ''));
+        $radius_raw  = get_option('nomreh_radius', '');
+        $radius      = (is_string($radius_raw) || is_numeric($radius_raw)) && preg_match('/^\d+(\.\d+)?$/', (string) $radius_raw)
+            ? (string) $radius_raw . 'px'
+            : '';
 
-        if (!$first && !$alt) {
+        if (!$first && !$alt && !$surface && !$border && !$button_text && $radius === '') {
             return '';
         }
 
@@ -107,6 +115,18 @@ class Assets {
         }
         if ($alt) {
             $css .= '--first-color-alt:' . $alt . ';';
+        }
+        if ($surface) {
+            $css .= '--spd-surface:' . $surface . ';';
+        }
+        if ($border) {
+            $css .= '--spd-border-color:' . $border . ';';
+        }
+        if ($button_text) {
+            $css .= '--spd-button-text:' . $button_text . ';';
+        }
+        if ($radius !== '') {
+            $css .= '--spd-radius:' . $radius . ';';
         }
         $css .= '}';
 
