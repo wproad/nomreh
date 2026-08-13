@@ -21,7 +21,20 @@ function spd_toast (message, type = "error") {
     }
 }
 
-jQuery(document).ready(function($) {  
+jQuery(document).ready(function($) {
+    var resendCountdown = null;
+
+    function clearResendTimer() {
+        if (resendCountdown) {
+            clearInterval(resendCountdown);
+            resendCountdown = null;
+        }
+        var $display = $('#resend-otp');
+        $display.hide();
+        $display.find('.timer').text('').hide();
+        $display.find('.resend-btn').hide();
+    }
+
     // Handle Send OTP form submission
     $('#send-otp-form').on('submit', function(e) {
         e.preventDefault();
@@ -51,6 +64,7 @@ jQuery(document).ready(function($) {
                     // Hide the Send OTP form and show the Verify OTP form
                     $('#send-otp-form').hide();
                     $('#verify-otp-form').show();
+                    $('#otp_code').val('').trigger('focus');
                     startTimer(timerDuration); // Start the countdown timer
                 } else {
                     spd_toast(response.data.message)
@@ -73,6 +87,9 @@ jQuery(document).ready(function($) {
 
     function refreshCaptcha(){
         var captchaImage = $('#spd-captcha-image')
+        if (!captchaImage.length) {
+            return;
+        }
         // Clear the input field
         $('#captcha-input').val('');
         // Generate a random number to append to the URL
@@ -87,6 +104,15 @@ jQuery(document).ready(function($) {
         captchaImage.attr('src', newSrc);
     }
 
+    $('#change-phone').on('click', function(e) {
+        e.preventDefault();
+        clearResendTimer();
+        $('#otp_code').val('');
+        $('#verify-otp-form').hide();
+        $('#send-otp-form').show();
+        refreshCaptcha();
+        $('#phone').trigger('focus');
+    });
 
     $('#resend-otp').on('click', '.resend-btn', function(e){
         e.preventDefault()
@@ -99,11 +125,13 @@ jQuery(document).ready(function($) {
             timerEl = displayEl.find('.timer'),
             resendBtnEl = displayEl.find('.resend-btn')
 
+        clearResendTimer();
+
         displayEl.show(0); // Show the timer
         timerEl.show(0);
         resendBtnEl.hide(0)
 
-        var countdown = setInterval(function () {
+        resendCountdown = setInterval(function () {
             minutes = parseInt(timer / 60, 10);
             seconds = parseInt(timer % 60, 10);
 
@@ -113,7 +141,8 @@ jQuery(document).ready(function($) {
             timerEl.html( minutes + ":" + seconds);
 
             if (--timer < 0) {
-                clearInterval(countdown);
+                clearInterval(resendCountdown);
+                resendCountdown = null;
                 timerEl.hide(0)
                 resendBtnEl.show(0)
             }

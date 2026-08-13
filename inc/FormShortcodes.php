@@ -28,7 +28,7 @@ class FormShortcodes {
             <form id="send-otp-form" class="otp-form">
                 <h3>ورود/ثبت نام</h3>
                 <label for="phone">شماره موبایل</label>
-                <input type="text" id="phone" name="phone" placeholder="0912xxxxxxx" required>
+                <input type="tel" id="phone" name="phone" placeholder="0912xxxxxxx" inputmode="numeric" autocomplete="tel" maxlength="11" required>
                 <?php if(Captcha::is_captcha_enabled()):?>
                 <div class="spd-captcha">
                     <input type="text" id="captcha-input" name="captcha" placeholder="کد امنیتی" required>
@@ -42,8 +42,12 @@ class FormShortcodes {
             <!-- Verify OTP Form (Initially hidden) -->
             <form id="verify-otp-form" class="otp-form" style="display: none;">
                 <h3>اعتبارسنجی</h3>
-                <label for="otp_code">کد اعتبارسنجی ارسال شده به شماره <span id="phone-clone"></span> را در کادر زیر وارد نمایید.</label>
-                <input type="text" id="otp_code" name="otp_code" placeholder="" required>
+                <label for="otp_code">کد تایید</label>
+                <input type="text" id="otp_code" name="otp_code" inputmode="numeric" autocomplete="one-time-code" maxlength="4" required>
+                <p class="spd-otp-hint">
+                    کد تایید به شماره <span id="phone-clone"></span> فرستاده شد.
+                    <a href="#" id="change-phone" class="spd-change-phone">تصحیح شماره</a>؟
+                </p>
                 <input type="hidden" id="redirect_url" name="redirect_url" value="<?php echo esc_attr($redirect_url); ?>">
                 <button class="spd-button" type="submit"><span class="text">تایید</span></button>
                 <div id="verify-otp-message" class="form-message"></div>

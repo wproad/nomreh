@@ -73,15 +73,38 @@
 }
 
 input#phone,
-input#email:focus,
-input#otp_code:focus{
-    direction:ltr;
-    text-align:left
+input#otp_code {
+    direction: ltr;
+    text-align: left;
+}
+
+.spd-otp-hint {
+    margin: -4px 0 14px;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.spd-otp-hint .spd-change-phone {
+    display: inline;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    /* color: var(--first-color); */
+    font: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    cursor: pointer;
+    vertical-align: baseline;
+}
+
+.spd-otp-hint .spd-change-phone:hover {
+    text-decoration: underline;
 }
 
 #resend-otp{
     display: none;
-    padding: 32px 0;
+    padding: 16px 0;
     text-align: center;
 }
 #resend-otp .timer{
