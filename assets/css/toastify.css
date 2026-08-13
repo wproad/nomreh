@@ -44,30 +44,26 @@
 
 .toastify .toast-close {
     all: unset;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    box-sizing: border-box;
     flex-shrink: 0;
-    width: 32px;
-    height: 32px;
-    margin: 0;
-    padding: 0;
-    border: 0;
-    border-radius: 6px;
-    background: transparent;
-    color: var(--spd-toast-text, #ffffff);
-    font-size: 24px;
-    font-weight: 300;
+    margin: 0 -2px 0 2px;
+    padding: 0 2px;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    color: inherit;
+    font-family: inherit;
+    font-size: 22px;
+    font-weight: 400;
     line-height: 1;
     cursor: pointer;
-    opacity: 0.7;
-    transition: opacity 0.2s ease, background-color 0.2s ease;
 }
 
 .toastify .toast-close:hover,
-.toastify .toast-close:focus {
-    opacity: 1;
-    background: rgba(0, 0, 0, 0.01);
+.toastify .toast-close:focus,
+.toastify .toast-close:active {
+    background: transparent !important;
+    box-shadow: none !important;
     outline: none;
 }
 

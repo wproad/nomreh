@@ -171,7 +171,7 @@
                 closeElement.type = "button";
                 closeElement.setAttribute("aria-label", "Close");
                 closeElement.className = "toast-close";
-                closeElement.innerHTML = "&#10006;";
+                closeElement.innerHTML = "&times;";
 
                 // Triggering the removal of toast from DOM on close click
                 closeElement.addEventListener(
