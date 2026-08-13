@@ -7,7 +7,13 @@ function spd_toast (message, type = "error") {
             close: true,
             style: {
                 background:
-                    type === "error" ? "#cc3e3e" : type === "success" ? "#25ae25" : "#373636", // Custom background colors for different types
+                    type === "error"
+                        ? "rgba(220, 68, 68, 0.86)"
+                        : type === "success"
+                          ? "rgba(34, 160, 94, 0.86)"
+                          : "rgba(55, 65, 81, 0.86)",
+                border: "1px solid rgba(255, 255, 255, 0.22)",
+                boxShadow: "0 10px 30px rgba(15, 23, 42, 0.16)",
             },
             gravity: "bottom", // `top` or `bottom`
             position: "left", // `left`, `center` or `right`

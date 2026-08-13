@@ -35,12 +35,15 @@
     font-weight: bold;
 }
 
+.spd-otp-container .otp-form input[type="text"],
+.spd-otp-container .otp-form input[type="email"],
+.spd-otp-container .otp-form input[type="tel"],
 .otp-form input {
     width: 100%;
-    padding: 10px;
+    padding: 12px 12px;
     margin-bottom: 10px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 8px !important;
 }
 
 input#phone,
@@ -83,10 +86,11 @@ input#otp_code:focus{
 }
 
 
+.spd-otp-container .spd-button,
 .spd-button{
     background-color: var(--first-color) !important;
     color: #fff !important;
-    border-radius: 4px;
+    border-radius: 8px !important;
     position: relative;
     display: flex;
     width:100%;

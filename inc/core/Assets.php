@@ -28,16 +28,21 @@ class Assets {
      * Load public-facing assets
      */
     public function load_public_assets() {
-        wp_enqueue_style($this->plugin_name . '-toastify', $this->plugin_url . '/assets/css/toastify.css' , array(), $this->plugin_version, 'all');
-        wp_enqueue_style($this->plugin_name, $this->plugin_url . '/assets/css/public.css' , array(), $this->plugin_version, 'all');
+        $css_ver = $this->asset_version('/assets/css/public.css');
+        $toastify_css_ver = $this->asset_version('/assets/css/toastify.css');
+        $js_ver = $this->asset_version('/assets/js/public.js');
+        $toastify_js_ver = $this->asset_version('/assets/js/toastify.js');
+
+        wp_enqueue_style($this->plugin_name . '-toastify', $this->plugin_url . '/assets/css/toastify.css' , array(), $toastify_css_ver, 'all');
+        wp_enqueue_style($this->plugin_name, $this->plugin_url . '/assets/css/public.css' , array(), $css_ver, 'all');
 
         $brand_css = $this->get_brand_inline_css();
         if ($brand_css !== '') {
             wp_add_inline_style($this->plugin_name, $brand_css);
         }
 
-        wp_enqueue_script($this->plugin_name . '-toastify', $this->plugin_url . '/assets/js/toastify.js' , array('jquery'), $this->plugin_version, false);
-        wp_enqueue_script($this->plugin_name, $this->plugin_url . '/assets/js/public.js' , array('jquery'), $this->plugin_version, false);
+        wp_enqueue_script($this->plugin_name . '-toastify', $this->plugin_url . '/assets/js/toastify.js' , array('jquery'), $toastify_js_ver, false);
+        wp_enqueue_script($this->plugin_name, $this->plugin_url . '/assets/js/public.js' , array('jquery'), $js_ver, false);
 
 
         wp_localize_script($this->plugin_name, 'nomreh_pub_obj', array(
@@ -67,6 +72,17 @@ class Assets {
             'ajaxurl' => admin_url('admin-ajax.php')
         ));
 
+    }
+
+    /**
+     * Prefer filemtime so CSS/JS edits bust browser cache without a version bump.
+     */
+    private function asset_version($relative_path) {
+        $path = NOMREH_PLUGIN_PATH . ltrim($relative_path, '/');
+        if (is_readable($path)) {
+            return (string) filemtime($path);
+        }
+        return $this->plugin_version;
     }
 
     /**
