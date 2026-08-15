@@ -149,8 +149,7 @@ input#phone {
     text-align: center;
     font-size: var(--spd-body-font-size);
 }
-#resend-otp .timer{
-    font-size: 17px;
+#resend-otp .timer .timer-value{
     color: var(--first-color);
 }
 

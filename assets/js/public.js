@@ -215,14 +215,14 @@ jQuery(document).ready(function($) {
         timerEl.show(0);
         resendBtnEl.hide(0)
 
-        resendCountdown = setInterval(function () {
+        function updateTimer() {
             minutes = parseInt(timer / 60, 10);
             seconds = parseInt(timer % 60, 10);
 
             minutes = minutes < 10 ? "0" + minutes : minutes;
             seconds = seconds < 10 ? "0" + seconds : seconds;
 
-            timerEl.html( minutes + ":" + seconds);
+            timerEl.html('امکان ارسال مجدد پیامک تا <span class="timer-value">' + minutes + ':' + seconds + '</span>');
 
             if (--timer < 0) {
                 clearInterval(resendCountdown);
@@ -230,7 +230,10 @@ jQuery(document).ready(function($) {
                 timerEl.hide(0)
                 resendBtnEl.show(0)
             }
-        }, 1000);
+        }
+
+        updateTimer();
+        resendCountdown = setInterval(updateTimer, 1000);
     }
 
     // Handle Verify OTP form submission
