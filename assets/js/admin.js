@@ -3,6 +3,12 @@ jQuery(document).ready(function($) {
         $('.nomreh-color-picker').wpColorPicker();
     }
 
+    $('form').on('submit', function() {
+        if (typeof tinymce !== 'undefined') {
+            tinymce.triggerSave();
+        }
+    });
+
     // Handle SMS provider selection
     $('#nomreh_sms_provider').on('change', function() {
         var selectedProvider = $(this).val();
