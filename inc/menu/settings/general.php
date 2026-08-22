@@ -2,6 +2,7 @@
 // Get saved options
 $nomreh_active_captcha = get_option('nomreh_active_captcha', 'no');
 $nomreh_woodmart_support = get_option('nomreh_woodmart_support', 'no');
+$nomreh_login_logs = get_option('nomreh_login_logs', 'yes');
 $nomreh_sms_provider = get_option('nomreh_sms_provider', 'kavenegar');
 $nomreh_form_footer_text = get_option('nomreh_form_footer_text', '');
 
@@ -10,6 +11,7 @@ if (isset($_POST['save_nomreh_login_settings'])) {
     // Sanitize and save the values
     $nomreh_active_captcha = isset($_POST['nomreh_active_captcha']) ? 'yes' : 'no';
     $nomreh_woodmart_support = isset($_POST['nomreh_woodmart_support']) ? 'yes' : 'no';
+    $nomreh_login_logs = isset($_POST['nomreh_login_logs']) ? 'yes' : 'no';
     $nomreh_sms_provider = sanitize_text_field($_POST['nomreh_sms_provider']);
     $nomreh_form_footer_text = isset($_POST['nomreh_form_footer_text'])
         ? wp_kses_post(wp_unslash($_POST['nomreh_form_footer_text']))
@@ -17,6 +19,7 @@ if (isset($_POST['save_nomreh_login_settings'])) {
 
     update_option('nomreh_active_captcha', $nomreh_active_captcha);
     update_option('nomreh_woodmart_support', $nomreh_woodmart_support);
+    update_option('nomreh_login_logs', $nomreh_login_logs);
     update_option('nomreh_sms_provider', $nomreh_sms_provider);
     update_option('nomreh_form_footer_text', $nomreh_form_footer_text);
 
@@ -60,6 +63,15 @@ $sms_providers = \Nomreh\Sms::get_providers();
             <td>
                 <input type="checkbox" name="nomreh_woodmart_support" id="nomreh_woodmart_support" value="yes" <?php checked($nomreh_woodmart_support, 'yes'); ?>>
                 <label for="nomreh_woodmart_support">نمایش فرم Nomreh بجای فرم لاگین پیش فرض وودمارت؟</label>
+            </td>
+        </tr>
+
+        <tr>
+            <th><label for="nomreh_login_logs">ثبت لاگ ورود</label></th>
+            <td>
+                <input type="checkbox" name="nomreh_login_logs" id="nomreh_login_logs" value="yes" <?php checked($nomreh_login_logs, 'yes'); ?>>
+                <label for="nomreh_login_logs">ورود و ثبت‌نام موفق در تب «لاگ ورود» ثبت شود.</label>
+                <p class="description">شماره موبایل به‌صورت جزئی ذخیره می‌شود. برای سایت‌های پرترافیک می‌توانید خاموش کنید.</p>
             </td>
         </tr>
 

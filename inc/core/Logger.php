@@ -4,15 +4,24 @@ namespace Nomreh\Core;
 class Logger {
     private $logDir;
     private $logFile;
+    private $debugFile;
 
-    /** Keep the last N lines in the file so it stays readable for a beta. */
+    /** Keep the last N lines in the file so it stays readable. */
     const MAX_LINES = 1000;
+    const OPTION_KEY = 'nomreh_login_logs';
 
     public function __construct() {
         $this->logDir = WP_CONTENT_DIR . '/nomreh-logs';
         $this->logFile = $this->logDir . '/login.log';
+        $this->debugFile = $this->logDir . '/debug.log';
+    }
 
-        $this->ensure_log_dir();
+    public static function is_enabled() {
+        return get_option(self::OPTION_KEY, 'yes') === 'yes';
+    }
+
+    public static function is_debug_enabled() {
+        return defined('WP_DEBUG') && WP_DEBUG;
     }
 
     private function ensure_log_dir() {
@@ -31,11 +40,26 @@ class Logger {
         }
     }
 
+    /**
+     * Activity log: successful login / register.
+     */
     public function logEvent($message) {
-        $current_time = current_time('Y-m-d H:i:s');
-        $log_message = "[$current_time] $message" . PHP_EOL;
-        file_put_contents($this->logFile, $log_message, FILE_APPEND | LOCK_EX);
-        $this->trim_if_needed();
+        if (!self::is_enabled()) {
+            return;
+        }
+
+        $this->append_line($this->logFile, $message);
+    }
+
+    /**
+     * Debug log: SMS API dumps and similar. Only written when WP_DEBUG is on.
+     */
+    public function log_debug($message) {
+        if (!self::is_debug_enabled()) {
+            return;
+        }
+
+        $this->append_line($this->debugFile, $message);
     }
 
     /**
@@ -114,6 +138,14 @@ class Logger {
         return substr($phone, 0, 4) . str_repeat('*', $len - 6) . substr($phone, -2);
     }
 
+    private function append_line($file, $message) {
+        $this->ensure_log_dir();
+        $current_time = current_time('Y-m-d H:i:s');
+        $log_message = "[$current_time] $message" . PHP_EOL;
+        file_put_contents($file, $log_message, FILE_APPEND | LOCK_EX);
+        $this->trim_if_needed($file);
+    }
+
     private static function sanitize_log_value($value) {
         $value = wp_strip_all_tags((string) $value);
         return str_replace(["\r", "\n", '|'], ['', '', '/'], $value);
@@ -123,15 +155,15 @@ class Logger {
         return isset($_SERVER['REMOTE_ADDR']) ? sanitize_text_field(wp_unslash($_SERVER['REMOTE_ADDR'])) : '-';
     }
 
-    private function trim_if_needed() {
-        if (!is_readable($this->logFile)) {
+    private function trim_if_needed($file) {
+        if (!is_readable($file)) {
             return;
         }
-        $lines = file($this->logFile, FILE_IGNORE_NEW_LINES);
+        $lines = file($file, FILE_IGNORE_NEW_LINES);
         if ($lines === false || count($lines) <= self::MAX_LINES) {
             return;
         }
         $keep = array_slice($lines, -self::MAX_LINES);
-        file_put_contents($this->logFile, implode(PHP_EOL, $keep) . PHP_EOL, LOCK_EX);
+        file_put_contents($file, implode(PHP_EOL, $keep) . PHP_EOL, LOCK_EX);
     }
 }
