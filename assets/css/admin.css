@@ -1,17 +1,19 @@
 :root {
-    /*========== Colors ==========*/
+    /*========== Brand ==========*/
     --first-color: hsl(342, 67%, 53%);
     --first-color-alt: hsl(342, 67%, 45%);
     --text-color: hsl(231, 12%, 98%);
     --body-color: hsl(231, 100%, 94%);
-    --shadow-color:hsl(342, 67%, 40%);
+    --shadow-color: hsl(342, 67%, 40%);
+    --spd-button-text: #fff;
+    --spd-radius: 4px;
 }
 
 
 .spd-button{
     background-color: var(--first-color) !important;
-    color: #fff;
-    border-radius: 4px;
+    color: var(--spd-button-text);
+    border-radius: var(--spd-radius);
     position: relative;
     display: flex;
     width:auto;
@@ -46,7 +48,7 @@
 
 .spinner-loading {
     border: 4px solid rgba(0, 0, 0, 0.1);
-    border-left-color: #ffffff;
+    border-left-color: var(--spd-button-text);
     border-radius: 50%;
     width: 13px;
     height: 13px;
@@ -130,4 +132,44 @@
     color: #383d41;
     border-left: 4px solid #6c757d;
     font-weight: bold;
+}
+
+.nomreh-login-log {
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    border-radius: 4px;
+    max-height: 560px;
+    overflow: auto;
+}
+
+.nomreh-login-log-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.nomreh-login-log-list li {
+    margin: 0;
+    padding: 8px 12px;
+    border-bottom: 1px solid #f0f0f1;
+    direction: ltr;
+    text-align: left;
+}
+
+.nomreh-login-log-list li:last-child {
+    border-bottom: 0;
+}
+
+.nomreh-login-log-list li.login {
+    border-right: 3px solid #2271b1;
+}
+
+.nomreh-login-log-list li.register {
+    border-right: 3px solid #00a32a;
+}
+
+.nomreh-login-log-list code {
+    font-size: 12px;
+    background: transparent;
+    padding: 0;
 }

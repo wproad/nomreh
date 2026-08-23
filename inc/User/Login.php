@@ -4,6 +4,7 @@ namespace Nomreh\User;
 
 use Nomreh\Permissions;
 use Nomreh\Nomreh;
+use Nomreh\Core\Logger;
 use Nomreh\Utilities\Helpers;
 
 class Login {
@@ -61,6 +62,8 @@ class Login {
 
             // Delete the OTP code after successful login
             \Nomreh\Otp::delete_otp_code($phone);
+
+            (new Logger())->log_login_success($user->ID, $phone);
 
             // Send success response
             wp_send_json_success(['message' => 'با موفقیت وارد شدید.']);

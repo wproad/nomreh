@@ -1,2 +1,59 @@
-.idea
-.DS_Store
+# OS
+**/.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# IDE / editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.cursor/
+.cursorrules
+.cursorignore
+
+# Dependencies (JS). PHP vendor/ is committed for distribution.
+node_modules/
+bower_components/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+auth.json
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build / release artifacts
+*.zip
+*.tar
+*.tar.gz
+*.rar
+dist/
+build/
+assets/dist/
+.sass-cache/
+.cache/
+.parcel-cache/
+.turbo/
+*.map
+
+# Testing / static analysis caches
+.phpunit.result.cache
+.phpunit.cache/
+.phpcs.cache
+.php-cs-fixer.cache
+.phpstan.cache
+coverage/
+.nyc_output/
+
+# Temp
+tmp/
+temp/
+.temp/

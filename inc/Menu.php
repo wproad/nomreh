@@ -27,6 +27,8 @@ class Menu{
 
             <h2 class="nav-tab-wrapper">
                 <a href="?page=nomreh&tab=settings" class="nav-tab <?php echo $active_tab === 'settings' ? 'nav-tab-active' : ''; ?>">تنظیمات</a>
+                <a href="?page=nomreh&tab=styles" class="nav-tab <?php echo $active_tab === 'styles' ? 'nav-tab-active' : ''; ?>">استایل</a>
+                <a href="?page=nomreh&tab=logs" class="nav-tab <?php echo $active_tab === 'logs' ? 'nav-tab-active' : ''; ?>">لاگ ورود</a>
                 <a href="?page=nomreh&tab=tools" class="nav-tab <?php echo $active_tab === 'tools' ? 'nav-tab-active' : ''; ?>">ابزارها</a>
             </h2>
 

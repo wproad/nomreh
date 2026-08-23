@@ -1,10 +1,41 @@
 :root {
-    /*========== Colors ==========*/
+    /*========== Brand ==========*/
     --first-color: hsl(342, 67%, 53%);
     --first-color-alt: hsl(342, 67%, 45%);
     --text-color: hsl(231, 12%, 98%);
     --body-color: hsl(231, 100%, 94%);
-    --shadow-color:hsl(342, 67%, 40%);
+    --shadow-color: hsl(342, 67%, 40%);
+
+    /*========== Surfaces ==========*/
+    --spd-surface: #fff;
+    --spd-border-color: #ccc;
+    --spd-radius: 8px;
+    --spd-button-text: #fff;
+
+    /*========== Form ==========*/
+    --spd-container-max-width: 400px;
+    --spd-container-padding: 20px;
+    --spd-control-height: 52px;
+    --spd-input-padding: 14px 16px;
+    --spd-input-font-size: 16px;
+    --spd-label-size: 15px;
+    --spd-heading-size: 22px;
+    --spd-body-font-size: 15px;
+    --spd-button-font-size: 16px;
+
+    /*========== Status ==========*/
+    --spd-success-color: #228a3d;
+    --spd-error-color: #d32f2f;
+
+    /*========== Toast ==========*/
+    --spd-toast-text: #ffffff;
+    --spd-toast-bg: rgba(55, 65, 81, 0.82);
+    --spd-toast-success-bg: rgba(34, 160, 94, 0.86);
+    --spd-toast-error-bg: rgba(220, 68, 68, 0.86);
+    --spd-toast-border: 1px solid rgba(255, 255, 255, 0.22);
+    --spd-toast-shadow: 0 10px 30px rgba(15, 23, 42, 0.16);
+    --spd-toast-radius: var(--spd-radius);
+    --spd-toast-font-size: 14px;
 }
 
 /*========== Utilities ==========*/
@@ -18,11 +49,11 @@
 
 /*========== Forms ==========*/
 .spd-otp-container {
-    max-width: 400px;
+    max-width: var(--spd-container-max-width);
     margin: 0 auto;
-    padding: 20px;
-    border-radius: 8px;
-    background-color: #fff;
+    padding: var(--spd-container-padding);
+    border-radius: var(--spd-radius);
+    background-color: var(--spd-surface);
 }
 
 .otp-form {
@@ -30,33 +61,96 @@
 }
 
 .otp-form h3 {
-    margin-bottom: 10px;
-    font-size: 18px;
+    margin-bottom: 14px;
+    font-size: var(--spd-heading-size);
     font-weight: bold;
+    line-height: 1.4;
 }
 
+.otp-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: var(--spd-label-size);
+    font-weight: 500;
+}
+
+.spd-otp-container .otp-form input[type="text"],
+.spd-otp-container .otp-form input[type="email"],
+.spd-otp-container .otp-form input[type="tel"],
 .otp-form input {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    height: var(--spd-control-height);
+    padding: var(--spd-input-padding);
+    margin-bottom: 12px;
+    border: 1px solid var(--spd-border-color);
+    border-radius: var(--spd-radius) !important;
+    font-size: var(--spd-input-font-size);
+    line-height: 1.4;
+    box-sizing: border-box;
 }
 
-input#phone,
-input#email:focus,
-input#otp_code:focus{
-    direction:ltr;
-    text-align:left
+input#phone {
+    direction: ltr;
+    text-align: left;
+}
+
+.spd-otp-digits {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    direction: ltr;
+    margin-bottom: 12px;
+    box-sizing: border-box;
+}
+
+.spd-otp-container .otp-form .spd-otp-digits .otp-digit,
+.spd-otp-digits .otp-digit {
+    flex: 1 1 0;
+    width: auto;
+    min-width: 0;
+    height: var(--spd-control-height);
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 0;
+    direction: ltr;
+    box-sizing: border-box;
+}
+
+.spd-otp-hint {
+    margin: -2px 0 16px;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.spd-otp-hint .spd-change-phone {
+    display: inline;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    /* color: var(--first-color); */
+    font: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    cursor: pointer;
+    vertical-align: baseline;
+}
+
+.spd-otp-hint .spd-change-phone:hover {
+    text-decoration: underline;
 }
 
 #resend-otp{
     display: none;
-    padding: 32px 0;
+    padding: 16px 0;
     text-align: center;
+    font-size: var(--spd-body-font-size);
 }
 #resend-otp .timer{
-    font-size: 16px;
+    font-size: 17px;
     color: var(--first-color);
 }
 
@@ -64,6 +158,7 @@ input#otp_code:focus{
     display: none;
     cursor:pointer;
     color: var(--first-color);
+    font-size: var(--spd-body-font-size);
 }
 
 .form-message{
@@ -71,11 +166,11 @@ input#otp_code:focus{
 }
 
 .form-message .success {
-    color: green;
+    color: var(--spd-success-color);
 }
 
 .form-message .error {
-    color: red;
+    color: var(--spd-error-color);
 }
 
 #phone-clone{
@@ -83,19 +178,29 @@ input#otp_code:focus{
 }
 
 
+.spd-otp-container .spd-button,
 .spd-button{
     background-color: var(--first-color) !important;
-    color: #fff !important;
-    border-radius: 4px;
+    color: var(--spd-button-text) !important;
+    border-radius: var(--spd-radius) !important;
     position: relative;
     display: flex;
     width:100%;
+    min-height: var(--spd-control-height);
     align-items: center;
     justify-content: center;
-    padding: 12px 10px;
+    padding: 14px 16px;
+    font-size: var(--spd-button-font-size);
+    font-weight: 600;
+    line-height: 1.4;
     overflow: hidden;
     border:none;
     outline: none;
+    transition: background-color 0.2s ease;
+    box-sizing: border-box;
+}
+.spd-button:hover:not(.loading){
+    background-color: var(--first-color-alt) !important;
 }
 .spd-button.loading{
     cursor: wait;
@@ -130,13 +235,13 @@ input#otp_code:focus{
     margin: 0 !important;
 }
 .spd-captcha #spd-captcha-image{
-    border-radius: 8px;
+    border-radius: var(--spd-radius);
 }
 
 
 .spinner-loading {
     border: 4px solid rgba(0, 0, 0, 0.1);
-    border-left-color: #ffffff;
+    border-left-color: var(--spd-button-text);
     border-radius: 50%;
     width: 13px;
     height: 13px;

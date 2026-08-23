@@ -77,28 +77,26 @@ class Otp {
             wp_send_json_error(['message' => 'ساختار شماره موبایل وارد شده صحیح نیست!']);
         }
 
+        $user_ip = $_SERVER['REMOTE_ADDR'] ?? '';
 
-        $user_ip = $_SERVER['REMOTE_ADDR']; // Get the user's IP address
-
-        // Create an instance of the Firewall class
-        $firewall = new Firewall();
-
-        // Check the IP against the firewall
-        $ip_check = $firewall->check_ip($user_ip);
-        if (!$ip_check['success']) {
-            wp_send_json_error(['message' => $ip_check['message']]);
+        // Rate-limit only outside development (dev mode skips SMS + firewall).
+        if (!NOMREH_DEVELOPMENT) {
+            $firewall = new Firewall();
+            $ip_check = $firewall->check_ip($user_ip);
+            if (!$ip_check['success']) {
+                wp_send_json_error(['message' => $ip_check['message']]);
+            }
         }
-
 
         // Proceed to generate and send the OTP code
         $otp_code = self::generate_otp_code($phone);
 
-        // Increment the attempt count
-        $firewall->increment_attempts($user_ip);
-
-        if(NOMREH_DEVELOPMENT){
-            wp_send_json_success(['message' => $otp_code]);
+        if (NOMREH_DEVELOPMENT) {
+            wp_send_json_success(['message' => 'کد توسعه: ' . $otp_code]);
         }
+
+        $firewall = new Firewall();
+        $firewall->increment_attempts($user_ip);
 
         // Send the OTP code via SMS
         Sms::send_otp($otp_code, $phone);
