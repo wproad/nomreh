@@ -4,6 +4,7 @@ if (!current_user_can('manage_options')) {
 }
 
 $logger = new \Nomreh\Core\Logger();
+$logs_enabled = \Nomreh\Core\Logger::is_enabled();
 
 if (isset($_POST['clear_nomreh_login_logs'])) {
     check_admin_referer('nomreh_login_logs');
@@ -13,15 +14,26 @@ if (isset($_POST['clear_nomreh_login_logs'])) {
 
 $lines = $logger->get_recent_lines(300);
 $count = $logger->get_line_count();
+$settings_url = admin_url('options-general.php?page=nomreh&tab=settings&section=general');
 ?>
 <br class="clear">
 
 <div id="wpma-logs" class="tab-content">
     <h2>لاگ ورود موفق</h2>
     <p class="description">
-        هر ورود یا ثبت‌نام موفق از طریق نُمره در اینجا ثبت می‌شود. مناسب برای مانیتور چندروزه بتا.
+        هر ورود یا ثبت‌نام موفق از طریق نُمره در اینجا ثبت می‌شود.
         شماره موبایل به‌صورت جزئی نمایش داده می‌شود.
+        از <a href="<?php echo esc_url($settings_url); ?>">تنظیمات عمومی</a> می‌توانید ثبت لاگ را خاموش کنید.
     </p>
+
+    <?php if (!$logs_enabled) : ?>
+        <div class="notice notice-warning inline">
+            <p>
+                ثبت لاگ ورود خاموش است. ورودهای جدید نوشته نمی‌شوند.
+                <a href="<?php echo esc_url($settings_url); ?>">فعال کردن در تنظیمات</a>
+            </p>
+        </div>
+    <?php endif; ?>
 
     <p>
         <strong>تعداد کل خطوط:</strong> <?php echo (int) $count; ?>

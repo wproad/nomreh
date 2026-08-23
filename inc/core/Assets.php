@@ -67,6 +67,7 @@ class Assets {
         $admin_deps = array('jquery');
         if ($hook === 'settings_page_nomreh') {
             wp_enqueue_style('wp-color-picker');
+            wp_enqueue_editor();
             $admin_deps[] = 'wp-color-picker';
         }
 

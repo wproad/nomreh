@@ -2,8 +2,6 @@
 
 namespace Nomreh;
 
-use Nomreh\Core\Logger;
-
 class Permissions{
 
 

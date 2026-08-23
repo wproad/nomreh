@@ -77,6 +77,13 @@ class FormShortcodes {
                 <button class="spd-button" type="submit"><span class="text">تکمیل ثبت نام</span></button>
                 <div id="registration-message" class="form-message"></div>
             </form>
+
+            <?php
+            $form_footer_text = get_option('nomreh_form_footer_text', '');
+            if (trim(wp_strip_all_tags((string) $form_footer_text)) !== '') {
+                echo wp_kses_post($form_footer_text);
+            }
+            ?>
         </div>
         <?php
         return ob_get_clean();

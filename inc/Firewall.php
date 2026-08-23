@@ -2,8 +2,6 @@
 
 namespace Nomreh;
 
-use Nomreh\Core\Logger;
-
 class Firewall {
 
     private $wpdb;
@@ -11,13 +9,11 @@ class Firewall {
     private $limit = 4; // Max attempts
     private $time_frame = 60000; // Time frame in seconds
     private $block_time = 15 * 60; // Block for 15 minutes (in seconds)
-    private $logger;
 
     public function __construct() {
         global $wpdb;
         $this->wpdb = $wpdb;
         $this->table_name = $wpdb->prefix . NOMREH_LOGIN_IP__TABLE_KEY;
-        $this->logger = new Logger(); // Instantiate the Logger
     }
 
 
