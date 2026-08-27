@@ -3,12 +3,12 @@
 Plugin Name: نُمره
 Plugin URI: https://nomreh-landing.vercel.app/
 Description: افزونه لاگین و ثبت نام با کد تایید پیامکی برای وردپرس. پشتیبانی از ملی پیامک و کاوه نگار. مناسب برای سایت‌های فارسی و ووکامرس.
-Version: 0.11.1
-Requires at least: 5.0
-Tested up to: 6.4
-Requires PHP: 7.4
+Version: 0.11.3
+Requires at least: 6.0.0
+Tested up to: 7.1.0
+Requires PHP: 7.4.0
 Author: WP Road
-Author URI: https://github.com/wp-road
+Author URI: https://github.com/wproad
 License: GPL v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: nomreh
@@ -153,7 +153,7 @@ class Nomreh{
     public function plugin_update_check()
     {
         $update_checker = \YahnisElsts\PluginUpdateChecker\v5\PucFactory::buildUpdateChecker(
-            'https://github.com/ihamedm/nomreh',
+            'https://github.com/wproad/nomreh',
             __FILE__,
             'nomreh'
         );
