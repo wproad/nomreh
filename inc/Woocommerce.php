@@ -8,7 +8,12 @@ class Woocommerce
 
             add_filter('the_content', [$this, 'show_nomreh_form']);
             add_action('template_redirect', [$this, 'redirect_checkout_to_nomreh_form'], 10);
-
+            add_filter(
+                'woocommerce_locate_template',
+                [ $this, 'replace_login_template' ],
+                10,
+                3
+            );
     }
 
     public function show_nomreh_form($content) {
@@ -36,6 +41,19 @@ class Woocommerce
         }
     }
 
+    public function replace_login_template( $template, $template_name, $template_path ) {
 
+    if ( 'myaccount/form-login.php' !== $template_name ) {
+        return $template;
+    }
+
+    $custom_template = NOMREH_PLUGIN_PATH . 'templates/woocommerce/form-login.php';
+
+    if ( file_exists( $custom_template ) ) {
+        return $custom_template;
+    }
+
+    return $template;
+}
 
 }
