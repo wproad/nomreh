@@ -68,7 +68,8 @@ class Login {
             // Send success response
             wp_send_json_success(['message' => 'با موفقیت وارد شدید.']);
         } else {
-            // Send error if OTP verification failed
+            // Send error if OTP verification failed, and log the attempt
+            (new Logger())->log_login_failure($phone, $otp_verification['message']);
             wp_send_json_error(['message' => $otp_verification['message']]);
         }
     }

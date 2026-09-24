@@ -164,6 +164,10 @@
     border-right: 3px solid #2271b1;
 }
 
+.nomreh-login-log-list li.failed {
+    border-right: 3px solid #d63638;
+}
+
 .nomreh-login-log-list li.register {
     border-right: 3px solid #00a32a;
 }

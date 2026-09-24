@@ -80,6 +80,20 @@ class Logger {
     }
 
     /**
+     * Log a failed Nomreh login attempt (e.g. wrong/expired OTP).
+     */
+    public function log_login_failure($phone, $reason = '') {
+        $ip = $this->client_ip();
+
+        $msg = 'LOGIN FAILED | phone=' . self::mask_phone($phone) . ' | ip=' . self::sanitize_log_value($ip);
+        if (!empty($reason)) {
+            $msg .= ' | reason=' . self::sanitize_log_value($reason);
+        }
+
+        $this->logEvent($msg);
+    }
+
+    /**
      * Log a successful Nomreh registration (new user, then logged in).
      */
     public function log_register_success($user_id, $phone) {

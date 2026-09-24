@@ -19,9 +19,9 @@ $settings_url = admin_url('options-general.php?page=nomreh&tab=settings&section=
 <br class="clear">
 
 <div id="wpma-logs" class="tab-content">
-    <h2>لاگ ورود موفق</h2>
+    <h2>لاگ ورود (موفق و ناموفق)</h2>
     <p class="description">
-        هر ورود یا ثبت‌نام موفق از طریق نُمره در اینجا ثبت می‌شود.
+        هر ورود یا ثبت‌نام موفق، و همچنین تلاش‌های ناموفق (مثلاً کد تایید اشتباه یا منقضی شده) از طریق نُمره در اینجا ثبت می‌شود.
         شماره موبایل به‌صورت جزئی نمایش داده می‌شود.
         از <a href="<?php echo esc_url($settings_url); ?>">تنظیمات عمومی</a> می‌توانید ثبت لاگ را خاموش کنید.
     </p>
@@ -54,11 +54,17 @@ $settings_url = admin_url('options-general.php?page=nomreh&tab=settings&section=
         <div class="nomreh-login-log">
             <ol class="nomreh-login-log-list">
                 <?php foreach ($lines as $line) : ?>
-                    <li class="<?php echo strpos($line, 'REGISTER OK') !== false ? 'register' : 'login'; ?>">
+                    <li class="<?php echo strpos($line, 'REGISTER OK') !== false ? 'register' : (strpos($line, 'LOGIN FAILED') !== false ? 'failed' : 'login'); ?>">
                         <code><?php echo esc_html($line); ?></code>
                     </li>
                 <?php endforeach; ?>
             </ol>
+        </div>
+        <div style="margin-top:12px; font-size:12px; color:#666;">
+            <span style="color:#2271b1;">■</span> موفق &nbsp;
+            <span style="color:#d63638;">■</span> ناموفق (تلاش) &nbsp;
+            <span style="color:#d63638;">■</span> ارسال شد اما وارد نشد &nbsp;
+            <span style="color:#00a32a;">■</span> ثبت نام
         </div>
     <?php endif; ?>
 </div>
