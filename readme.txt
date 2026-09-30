@@ -3,9 +3,9 @@ Contributors: wproad
 Donate link: https://nomreh-landing.vercel.app/
 Tags: otp, sms, login, woocommerce, kavenegar, melipayamak
 Requires at least: 6.0.0
-Tested up to: 7.1.0
+Tested up to: 7.1.2
 Requires PHP: 7.4.0
-Stable tag: 0.11.3
+Stable tag: 0.11.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -56,6 +56,19 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 == Changelog ==
 
+= 0.11.5 =
+* Log failed login attempts (wrong or expired OTP) with the phone number, IP and reason, and mark them in red in the login log screen.
+* Add a colour legend to the login log screen for successful, failed and registration entries.
+* Load the front-end CSS and JS only on pages that actually render the form, with a footer fallback for widget, block and theme template placements.
+* Defer public.js and toastify.js on WordPress 6.3 and later, and drop the unused jQuery dependency from toastify.js.
+* Fix a fatal error when the Woodmart replacement is enabled on a site without the Woodmart theme.
+* Share a single sidebar-form check between the asset loader and the Woodmart render callback.
+* Raise Tested up to WordPress 7.1.2.
+
+= 0.11.4 =
+* Render the Nomreh OTP form in the WooCommerce login template, so login and registration use SMS codes on any page WooCommerce outputs its login form, not just the My Account page.
+* Redirect guests from the checkout page to the login page.
+
 = 0.11.3 =
 * Add plugin update metadata: readme, changelog, icons, and banners.
 * Raise Tested up to WordPress 7.1.
@@ -85,6 +98,9 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 * Add captcha, Woodmart support, and permission checks.
 
 == Upgrade Notice ==
+
+= 0.11.5 =
+Loads the front-end CSS and JS only on pages that render the login form, adds failed login attempts to the log screen, and fixes a fatal error with the Woodmart replacement enabled without the Woodmart theme.
 
 = 0.11.3 =
 Adds plugin details (changelog, icon, compatibility) for the WordPress update screen.

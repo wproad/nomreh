@@ -12,8 +12,48 @@ class Woodmart{
         return static::$instance;
     }
 
+    /**
+     * Whether the Woodmart sidebar replacement can run on this site.
+     *
+     * The option alone is not enough: the helpers used below ship with the
+     * Woodmart theme, so a site that enables the option without the theme (or
+     * without the header builder) would hit undefined functions.
+     */
+    public static function is_supported() {
+        if(get_option('nomreh_woodmart_support') != 'yes') {
+            return false;
+        }
+
+        return function_exists('woodmart_woocommerce_installed')
+            && function_exists('whb_get_settings')
+            && function_exists('whb_get_dropdowns_color')
+            && function_exists('woodmart_enqueue_inline_style');
+    }
+
+    /**
+     * Whether the sidebar login form is replaced by the Nomreh form on this
+     * request. Consulted before the head is sent so Core\Assets knows whether
+     * the pages need the public assets, and re-checked when the form renders so
+     * the two can never disagree.
+     */
+    public static function is_sidebar_form_active() {
+        if (!self::is_supported() || is_user_logged_in()) {
+            return false;
+        }
+
+        if (!woodmart_woocommerce_installed() || is_account_page()) {
+            return false;
+        }
+
+        $settings = whb_get_settings();
+
+        return !empty($settings['account']['login_dropdown'])
+            && isset($settings['account']['form_display'])
+            && $settings['account']['form_display'] === 'side';
+    }
+
     public function __construct(){
-        if(get_option('nomreh_woodmart_support') == 'yes'){
+        if(self::is_supported()){
             // Remove the original sidebar login form
             add_action('init', function() {
                 remove_action('woodmart_before_wp_footer', 'woodmart_sidebar_login_form', 160);
@@ -30,13 +70,9 @@ class Woodmart{
 // Add your custom sidebar login form
 
     public function sidebar_login_form() {
-        if (!woodmart_woocommerce_installed() || is_account_page()) {
+        if (!self::is_sidebar_form_active()) {
             return;
         }
-
-        $settings = whb_get_settings();
-        $login_side = isset($settings['account']) && $settings['account']['login_dropdown'] && $settings['account']['form_display'] == 'side';
-        $account_link = get_permalink(get_option('woocommerce_myaccount_page_id'));
 
         $wrapper_classes = '';
 
@@ -46,10 +82,6 @@ class Woodmart{
 
         $position = is_rtl() ? 'left' : 'right';
         $wrapper_classes .= ' wd-' . $position;
-
-        if (!$login_side || is_user_logged_in()) {
-            return;
-        }
 
         woodmart_enqueue_inline_style('header-my-account-sidebar');
         woodmart_enqueue_inline_style('woo-mod-login-form');

@@ -2,8 +2,15 @@
 namespace Nomreh;
 
 class FormShortcodes {
+
+    /**
+     * Shortcode tag, shared with Core\Assets so the front-end check and the
+     * registration cannot drift apart.
+     */
+    const SHORTCODE = 'nomreh_otp_forms';
+
     public function __construct() {
-        add_shortcode('nomreh_otp_forms', array($this, 'render_otp_forms'));
+        add_shortcode(self::SHORTCODE, array($this, 'render_otp_forms'));
     }
 
     public function render_otp_forms() {
@@ -22,6 +29,11 @@ class FormShortcodes {
             <?php
             return ob_get_clean();
         }
+
+        // The form is being rendered, so its assets are needed. The head-time
+        // check covers the common cases; this catches the rest (widget, block,
+        // theme template) and is a no-op when they are already enqueued.
+        Core\Assets::mark_form_rendered();
         ?>
         <div class="spd-otp-container">
             <!-- Send OTP Form -->
