@@ -5,7 +5,7 @@ Tags: otp, sms, login, woocommerce, kavenegar, melipayamak
 Requires at least: 6.0.0
 Tested up to: 7.1.2
 Requires PHP: 7.4.0
-Stable tag: 0.11.5
+Stable tag: 0.11.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -56,6 +56,12 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 == Changelog ==
 
+= 0.11.6 =
+* Show login log timestamps in the Jalali (Persian) calendar, in Persian digits. Converted in-plugin, no calendar library added; the Gregorian stamp is still available on hover.
+* Show the last 1000 login log entries instead of 300, which is everything the log file retains.
+* Tint each log row with a light version of its status colour and widen the status stripe, so single rows are easy to spot.
+* Remove a duplicate entry from the log legend that was never produced by the log.
+
 = 0.11.5 =
 * Log failed login attempts (wrong or expired OTP) with the phone number, IP and reason, and mark them in red in the login log screen.
 * Add a colour legend to the login log screen for successful, failed and registration entries.
@@ -98,6 +104,9 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 * Add captcha, Woodmart support, and permission checks.
 
 == Upgrade Notice ==
+
+= 0.11.6 =
+The login log now shows Persian (Jalali) dates and the last 1000 entries, and each row is colour tinted by status. Nothing to configure.
 
 = 0.11.5 =
 Loads the front-end CSS and JS only on pages that render the login form, adds failed login attempts to the log screen, and fixes a fatal error with the Woodmart replacement enabled without the Woodmart theme.

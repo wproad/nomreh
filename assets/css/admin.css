@@ -151,7 +151,7 @@
 .nomreh-login-log-list li {
     margin: 0;
     padding: 8px 12px;
-    border-bottom: 1px solid #f0f0f1;
+    border-bottom: 1px solid #dcdcde;
     direction: ltr;
     text-align: left;
 }
@@ -160,20 +160,48 @@
     border-bottom: 0;
 }
 
+/*
+ * Each row carries its status twice: a saturated stripe on the right and a very
+ * light tint behind the text. The tint is what makes a single row stand out on
+ * a long log; the stripe alone is easy to miss when scrolling. Physical
+ * `border-right` is kept on purpose - in an RTL admin that is the side the eye
+ * starts from.
+ */
 .nomreh-login-log-list li.login {
-    border-right: 3px solid #2271b1;
+    border-right: 5px solid #2271b1;
+    background: #f0f6fc;
 }
 
 .nomreh-login-log-list li.failed {
-    border-right: 3px solid #d63638;
+    border-right: 5px solid #d63638;
+    background: #fcf0f1;
 }
 
 .nomreh-login-log-list li.register {
-    border-right: 3px solid #00a32a;
+    border-right: 5px solid #00a32a;
+    background: #edfaef;
 }
 
 .nomreh-login-log-list code {
     font-size: 12px;
     background: transparent;
     padding: 0;
+}
+
+/*
+ * The Jalali stamp sits in its own column so the dates line up, and the
+ * Gregorian original stays reachable on hover. The fixed width is what makes
+ * the column work: every stamp is the same length, so min-width is enough
+ * without measuring anything. direction: ltr keeps the Persian digits from
+ * being reordered by the surrounding text.
+ */
+.nomreh-login-log-list .nomreh-login-log-date {
+    display: inline-block;
+    min-width: 132px;
+    direction: ltr;
+    unicode-bidi: isolate;
+    color: #646970;
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+    cursor: help;
 }

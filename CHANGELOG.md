@@ -2,6 +2,29 @@
 
 All notable changes to Nomreh are documented in this file.
 
+## 0.11.6
+
+### Added
+
+- Login log timestamps are shown in the Jalali (Persian) calendar, in Persian
+  digits. The conversion is done by a new `Nomreh\Utilities\Jalali` helper, so
+  no calendar library is added to the plugin. The original Gregorian stamp stays
+  available on hover.
+- The login log shows the last 1000 entries instead of 300. The log file already
+  retained 1000 lines, so the screen now shows everything that is kept.
+
+### Changed
+
+- Each log row is tinted with a very light version of its status colour and its
+  status stripe is wider, so a single row is easy to pick out in a long list.
+  Row separators are slightly darker so consecutive rows of the same status
+  still read as separate entries.
+
+### Fixed
+
+- Removed a duplicate entry from the log legend. It repeated the failed-attempt
+  colour and was never produced by the log.
+
 ## 0.11.5
 
 ### Added
