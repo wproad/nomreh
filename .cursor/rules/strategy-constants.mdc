@@ -1,0 +1,26 @@
+---
+description: Put changeable business decisions in named constants
+alwaysApply: true
+---
+
+# Strategy constants
+
+A value that encodes business logic or strategy, and that a developer may change later, is a named constant. Do not bury it in a condition, a magic number, or a one-off literal.
+
+Put it on the class or file that already owns that area's settings. A developer flips the constant. Do not add an admin control unless someone who does not edit code must change it.
+
+```php
+// ❌ BAD — the decision is hidden in the method
+if ( $qty <= 3 ) {
+	$this->notify();
+}
+
+// ✅ GOOD — one place to change the strategy
+const LOW_STOCK_THRESHOLD = 3;
+
+if ( $qty <= self::LOW_STOCK_THRESHOLD ) {
+	$this->notify();
+}
+```
+
+Leave literals for loop indexes and for values fixed by a protocol or a third-party API this project does not decide.

@@ -154,7 +154,9 @@ class Assets {
 
         wp_localize_script($this->plugin_name, 'nomreh_pub_obj', array(
             'ajax_nonce' => wp_create_nonce('nomreh_ajax_nonce'),
-            'ajaxurl' => admin_url('admin-ajax.php'),
+            // Relative so the login form on an http storefront stays same-origin.
+            // admin_url() defaults to https when FORCE_SSL_ADMIN is on.
+            'ajaxurl' => admin_url('admin-ajax.php', 'relative'),
             'is_rtl' => is_rtl(),
         ));
 

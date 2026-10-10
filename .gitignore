@@ -11,7 +11,8 @@ nomreh.code-workspace
 *.swp
 *.swo
 *~
-.cursor/
+.cursor/*
+!.cursor/rules/
 .cursorrules
 .cursorignore
 
