@@ -119,6 +119,33 @@ jQuery(document).ready(function($) {
         $(this).select();
     });
 
+    // Assigning the current document URL does not request it again.
+    // Reload so the new session is applied, and keep a changed hash.
+    function followRedirect(url) {
+        var target = url || window.location.href;
+
+        try {
+            var next = new URL(target, window.location.href);
+            var current = new URL(window.location.href);
+            var samePage = next.origin === current.origin
+                && next.pathname === current.pathname
+                && next.search === current.search;
+
+            if (samePage) {
+                if (next.hash && next.hash !== current.hash) {
+                    window.location.hash = next.hash;
+                }
+                window.location.reload();
+                return;
+            }
+        } catch (error) {
+            window.location.href = target;
+            return;
+        }
+
+        window.location.href = target;
+    }
+
     // Handle Send OTP form submission
     $('#send-otp-form').on('submit', function(e) {
         e.preventDefault();
@@ -278,7 +305,7 @@ jQuery(document).ready(function($) {
                         $('#complete-registration-form').show();
                     } else {
                         setTimeout(function(){
-                            window.location.href = redirect_url;
+                            followRedirect(redirect_url);
                         }, 1000);
                     }
                 } else {
@@ -318,7 +345,7 @@ jQuery(document).ready(function($) {
                 if (response.success) {
                     spd_toast(response.data.message, 'success')
                     setTimeout(function(){
-                        window.location.href = $('#reg_redirect_url').val();
+                        followRedirect($('#reg_redirect_url').val());
                     }, 1000);
                 } else {
                     spd_toast(response.data.message)

@@ -5,7 +5,7 @@ Tags: otp, sms, login, woocommerce, kavenegar, melipayamak
 Requires at least: 6.0.0
 Tested up to: 7.1.2
 Requires PHP: 7.4.0
-Stable tag: 0.11.6
+Stable tag: 0.11.7
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -56,6 +56,9 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 == Changelog ==
 
+= 0.11.7 =
+* After login, reload when the redirect target is the page already open, so the new session is shown. A changed hash is kept.
+
 = 0.11.6 =
 * Show login log timestamps in the Jalali (Persian) calendar, in Persian digits. Converted in-plugin, no calendar library added; the Gregorian stamp is still available on hover.
 * Show the last 1000 login log entries instead of 300, which is everything the log file retains.
@@ -104,6 +107,9 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 * Add captcha, Woodmart support, and permission checks.
 
 == Upgrade Notice ==
+
+= 0.11.7 =
+After login, a redirect back to the page already open now reloads so the new session is shown.
 
 = 0.11.6 =
 The login log now shows Persian (Jalali) dates and the last 1000 entries, and each row is colour tinted by status. Nothing to configure.

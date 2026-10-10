@@ -2,6 +2,13 @@
 
 All notable changes to Nomreh are documented in this file.
 
+## 0.11.7
+
+### Fixed
+
+- After login, reload when the redirect target is the page already open, so the
+  new session is shown. A changed hash is kept.
+
 ## 0.11.6
 
 ### Added
