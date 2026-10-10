@@ -2,6 +2,13 @@
 
 All notable changes to Nomreh are documented in this file.
 
+## 0.12.0
+
+### Fixed
+
+- The login form calls `admin-ajax.php` with a relative URL, so an HTTP
+  storefront stays on the same origin when the admin URL is forced to HTTPS.
+
 ## 0.11.7
 
 ### Fixed

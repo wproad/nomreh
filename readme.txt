@@ -5,7 +5,7 @@ Tags: otp, sms, login, woocommerce, kavenegar, melipayamak
 Requires at least: 6.0.0
 Tested up to: 7.1.2
 Requires PHP: 7.4.0
-Stable tag: 0.11.7
+Stable tag: 0.12.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -55,6 +55,9 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 شورت‌کد `[nomreh_otp_forms]` را در برگه دلخواه قرار دهید.
 
 == Changelog ==
+
+= 0.12.0 =
+* Call admin-ajax.php with a relative URL, so an HTTP storefront stays on the same origin when the admin URL is forced to HTTPS.
 
 = 0.11.7 =
 * After login, reload when the redirect target is the page already open, so the new session is shown. A changed hash is kept.
@@ -107,6 +110,9 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 * Add captcha, Woodmart support, and permission checks.
 
 == Upgrade Notice ==
+
+= 0.12.0 =
+The login form now uses a relative admin-ajax.php URL, so HTTP storefronts stay on the same origin when the admin URL is HTTPS.
 
 = 0.11.7 =
 After login, a redirect back to the page already open now reloads so the new session is shown.
