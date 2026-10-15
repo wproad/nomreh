@@ -1,0 +1,94 @@
+---
+description: Versioning, asset cache, and release workflow for Nomreh
+alwaysApply: true
+---
+
+# Versioning and release
+
+Release identity is `vx.y.z`. Stored version fields omit the leading `v` and use `x.y.z`. The Git tag and the version commit use `vx.y.z`.
+
+## Increment
+
+- New feature: increase `y` by 1 and reset `z` to 0.
+- Fix or improvement to an existing feature: increase `z` by 1.
+- Both a new feature and fixes: use the new-feature increment.
+- Classify from the completed code, not from commit-message wording alone.
+- If no new styles were created, do not increase the version. JavaScript, PHP, config, and docs changes are not enough. Do not edit styles only to justify a bump.
+- If it is unclear whether the work is a feature or a fix, or whether the style condition was met, stop. Do not guess.
+
+## Authoritative version
+
+The plugin header `Version` in `nomreh.php` is the only stored software version. At runtime `get_plugin_data()` copies it into `NOMREH_PLUGIN_VERSION`. Do not add a second hardcoded copy of that number.
+
+These are not the software version. Change them only when their own behavior changes:
+
+- `NOMREH_DB_VERSION` — database schema marker. Compared with the `_nomreh_login_db_version` option before tables are created.
+- `NOMREH_CRON_VERSION` — cron schedule marker. Compared with the `_nomreh_login_cron_version` option before events are rescheduled.
+- `NOMREH_DEVELOPMENT` — when `true`, OTP is returned in the response and rate limiting is skipped. Production uploads require `false`.
+- Composer metadata under `vendor/composer/` (`dev-main`). It is not read as the plugin version.
+
+## Files to update for a release
+
+Update only these when the version increases. They must all show the same `x.y.z`:
+
+| File | Purpose |
+| --- | --- |
+| `nomreh.php` header `Version` | Source of truth. Becomes `NOMREH_PLUGIN_VERSION`, the installed version the update checker compares, and the admin asset cache key. |
+| `readme.txt` `Stable tag` | Readme metadata. Must match the header. |
+| `readme.txt` `== Changelog ==` and `== Upgrade Notice ==` | Newest section for the release. |
+| `CHANGELOG.md` | Newest `## x.y.z` section for the same release. |
+
+The version commit contains only those files. Commit message: `chore(release): vX.Y.Z`. Annotated tag on that commit: `vX.Y.Z` with message `vX.Y.Z`. Do not move, overwrite, or delete an existing tag. Do not push unless asked.
+
+The update checker (`plugin_update_check()` in `nomreh.php`) points at `https://github.com/wproad/nomreh` on branch `main`. For `main` it prefers the latest GitHub Release, then the highest semver tag (a leading `v` is stripped), then the branch itself. The tag name and the header must be the same release.
+
+## New styles
+
+A version increase is allowed only when work since the last release tag (the last version bump, when that commit is the tag) includes newly created styles.
+
+Compare both uncommitted changes and commits after that tag.
+
+Qualifies:
+
+- A new plugin-authored stylesheet under `assets/css/`.
+- A material content change to `assets/css/public.css` or `assets/css/admin.css`.
+
+Does not qualify:
+
+- No diff in those stylesheets.
+- Whitespace, formatting, or comment-only edits to an existing stylesheet.
+- Changes limited to `assets/css/toastify.css` (third-party).
+- Inline CSS from Settings → Styles (`nomreh_custom_styles` and the color/radius options). That CSS is stored in options and is not a shipped stylesheet.
+- JavaScript, PHP, config, or docs only.
+
+## Asset cache
+
+There is no build manifest and no separate dev/prod asset pipeline. The same enqueue code runs in every environment.
+
+- Public `assets/css/public.css`, `assets/css/toastify.css`, `assets/js/public.js`, and `assets/js/toastify.js`: the `ver` query argument is the file's `filemtime` when the file is readable, otherwise `NOMREH_PLUGIN_VERSION`. Editing those files busts the browser cache without a version bump.
+- Admin `assets/css/admin.css` and `assets/js/admin.js`: the `ver` query argument is `NOMREH_PLUGIN_VERSION`. A plugin version bump is what invalidates those URLs.
+- `NOMREH_DEVELOPMENT` does not change asset URLs.
+
+## Production preparation
+
+This plugin has no `package.json`, bundler, or compile step. `assets/css` and `assets/js` are the files that ship. `composer.json` has no requirements; `vendor/autoload.php` is already committed.
+
+Before upload, confirm:
+
+- Header, `Stable tag`, `CHANGELOG.md`, and the Git tag agree.
+- `NOMREH_DEVELOPMENT` is `false`.
+- `php -l nomreh.php` passes.
+- `git status` shows no unintended files.
+- Public assets still take their `ver` from `filemtime`, and admin assets still take it from `NOMREH_PLUGIN_VERSION`.
+
+Do not regenerate `vendor/` or edit unrelated files as part of a release. There is no production build command to run.
+
+## Stop the release when
+
+- The style condition above is not met, or it is ambiguous.
+- The working tree has changes that are not the version files (commit or clean those first; do not stash, reset, or mix them into the release commit).
+- Header, `Stable tag`, and changelog disagree.
+- `php -l` fails.
+- The tag `vX.Y.Z` already exists.
+- `NOMREH_DEVELOPMENT` is `true`.
+- A version bump would also require a schema or cron change that was not made (`NOMREH_DB_VERSION` / `NOMREH_CRON_VERSION`).
